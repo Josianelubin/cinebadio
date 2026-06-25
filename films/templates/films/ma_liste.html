@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block titre %}Ma liste — CinéBadio{% endblock %}
+{% block contenu %}
+<div class="section">
+    <h2>🎬 Ma liste à voir</h2>
+    <div class="grille-cartes">
+        {% for element in elements %}
+            {% if element.film %}
+            <a href="{% url 'films:detail_film' element.film.pk %}" class="carte-media">
+                <img src="{{ element.film.affiche.url }}" alt="{{ element.film.titre }}">
+                <div class="infos"><h3>{{ element.film.titre }}</h3><span>Film</span></div>
+            </a>
+            {% elif element.serie %}
+            <a href="{% url 'films:detail_serie' element.serie.pk %}" class="carte-media">
+                <img src="{{ element.serie.affiche.url }}" alt="{{ element.serie.titre }}">
+                <div class="infos"><h3>{{ element.serie.titre }}</h3><span>Série</span></div>
+            </a>
+            {% endif %}
+        {% empty %}
+        <p style="color:var(--texte-attenue);">Votre liste est vide pour le moment.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

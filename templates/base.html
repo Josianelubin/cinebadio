@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titre %}CinéBadio{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" href="{% static 'img/badio.png' %}">
+</head>
+<body>
+
+<header class="navbar">
+    <a href="{% url 'films:home' %}" class="logo">Ciné<span>Badio</span></a>
+    <nav>
+        <a href="{% url 'films:home' %}">Accueil</a>
+        <a href="{% url 'films:liste_films' %}">Films</a>
+        <a href="{% url 'films:liste_series' %}">Séries</a>
+        {% if user.is_authenticated %}<a href="{% url 'films:ma_liste' %}">Ma liste</a>{% endif %}
+    </nav>
+    <div class="actions">
+        <form action="{% url 'films:recherche' %}" method="get" style="margin-right:6px;">
+            <input type="text" name="q" placeholder="Rechercher..." class="champ-form" style="margin:0;padding:8px 12px;width:160px;">
+        </form>
+        {% if user.is_authenticated %}
+            <a href="{% url 'accounts:profil' %}">
+                <img src="{{ user.avatar_url }}" class="avatar-nav" alt="profil">
+            </a>
+            {% if user.is_staff %}<a href="/admin/" class="btn-nav btn-or">Admin</a>{% endif %}
+            <form action="{% url 'accounts:logout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-nav btn-rouge">Déconnexion</button>
+            </form>
+        {% else %}
+            <a href="{% url 'accounts:login' %}" class="btn-nav btn-or">Connexion</a>
+            <a href="{% url 'accounts:inscription' %}" class="btn-nav btn-rouge">Inscription</a>
+        {% endif %}
+    </div>
+</header>
+
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+        <div class="message {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<main>
+    {% block contenu %}{% endblock %}
+</main>
+
+<footer class="footer">
+    &copy; {% now "Y" %} CinéBadio — Tous droits réservés.
+</footer>
+
+</body>
+</html>

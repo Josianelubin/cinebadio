@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block titre %}{{ serie.titre }} — CinéBadio{% endblock %}
+{% block contenu %}
+<div class="detail-media">
+    <div>
+        <img src="{{ serie.affiche.url }}" alt="{{ serie.titre }}" class="affiche-grande">
+    </div>
+    <div>
+        <h1 class="titre-detail">{{ serie.titre }}</h1>
+        <div class="meta">
+            Depuis {{ serie.annee_debut }} · {{ serie.nombre_saisons }} saison(s) · ⭐ {{ serie.note }}/10
+        </div>
+        <div class="genres-tags">
+            {% for genre in serie.genres.all %}<span>{{ genre.nom }}</span>{% endfor %}
+        </div>
+        <p>{{ serie.description }}</p>
+
+        {% if user.is_authenticated %}
+            {% if not dans_la_liste %}
+            <form action="{% url 'films:ajouter_liste' 'serie' serie.pk %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-nav btn-or">+ Ajouter à ma liste</button>
+            </form>
+            {% else %}
+            <span class="btn-nav" style="border:1px solid #4caf50;color:#4caf50;">✓ Dans votre liste</span>
+            {% endif %}
+        {% endif %}
+
+        {% if serie.bande_annonce_url %}
+        <div class="bloc-saison">
+            <h3>Bande-annonce</h3>
+            <iframe class="video-player" height="380" src="{{ serie.bande_annonce_embed }}"
+                title="Bande-annonce" frameborder="0" allowfullscreen></iframe>
+        </div>
+        {% endif %}
+
+        {% for numero_saison, episodes in saisons.items %}
+        <div class="bloc-saison">
+            <h3>Saison {{ numero_saison }}</h3>
+            {% for episode in episodes %}
+            <details>
+                <summary class="episode-ligne">
+                    <span>E{{ episode.numero }} — {{ episode.titre }}</span>
+                    <span>{{ episode.duree_minutes }} min</span>
+                </summary>
+                {% if episode.url_lecture %}
+                    {% if episode.lien_video %}
+                    <iframe class="video-player" height="380" src="{{ episode.url_lecture }}"
+                        title="{{ episode.titre }}" frameborder="0" allowfullscreen></iframe>
+                    {% else %}
+                    <video class="video-player" height="380" controls src="{{ episode.url_lecture }}"></video>
+                    {% endif %}
+                {% else %}
+                <p style="color:var(--texte-attenue);padding:10px;">Vidéo non disponible.</p>
+                {% endif %}
+            </details>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+/* CinéBadio — Admin Jazzmin : thème sombre + or */
+
+:root {
+    --badio-or: #d4af37;
+    --badio-noir: #0d0d0d;
+}
+
+body.login {
+    background: radial-gradient(circle at top, #1a1a1a, #000) !important;
+}
+
+.login-box, .register-box {
+    margin-top: 6%;
+}
+
+.login-logo img, .brand-image {
+    border-radius: 50%;
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+}
+
+.card {
+    border-radius: 14px !important;
+    border: 1px solid #2a2a2a !important;
+}
+
+.login-card-body, .card-body {
+    background: #161616 !important;
+    border-radius: 14px;
+}
+
+.btn-warning, .btn-primary {
+    background-color: var(--badio-or) !important;
+    border-color: var(--badio-or) !important;
+    color: #111 !important;
+    font-weight: 700 !important;
+}
+
+.btn-warning:hover, .btn-primary:hover {
+    opacity: 0.85;
+}
+
+.main-header.navbar {
+    border-bottom: 2px solid var(--badio-or) !important;
+}
+
+.brand-link {
+    border-bottom: 2px solid var(--badio-or) !important;
+}
+
+a, .nav-link.active {
+    color: var(--badio-or);
+}
+
+.small-box, .info-box {
+    border-radius: 12px !important;
+}

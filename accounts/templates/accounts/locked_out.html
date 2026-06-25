@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block titre %}Compte temporairement bloqué{% endblock %}
+{% block contenu %}
+<div class="page-form">
+    <div class="carte-form" style="text-align:center;">
+        <h1>🔒 Accès bloqué</h1>
+        <p class="sous-titre">
+            Trop de tentatives de connexion échouées ont été détectées.
+            Pour des raisons de sécurité, l'accès est temporairement bloqué.
+            Réessayez plus tard.
+        </p>
+        <a href="{% url 'films:home' %}" class="lien-secondaire">Retour à l'accueil</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block titre %}{{ film.titre }} — CinéBadio{% endblock %}
+{% block contenu %}
+<div class="detail-media">
+    <div>
+        <img src="{{ film.affiche.url }}" alt="{{ film.titre }}" class="affiche-grande">
+    </div>
+    <div>
+        <h1 class="titre-detail">{{ film.titre }}</h1>
+        <div class="meta">
+            {{ film.annee_sortie }} · {{ film.duree_minutes }} min
+            {% if film.realisateur %} · Réalisé par {{ film.realisateur }}{% endif %}
+            · ⭐ {{ film.note }}/10
+        </div>
+        <div class="genres-tags">
+            {% for genre in film.genres.all %}<span>{{ genre.nom }}</span>{% endfor %}
+        </div>
+        <p>{{ film.description }}</p>
+
+        {% if user.is_authenticated %}
+            {% if not dans_la_liste %}
+            <form action="{% url 'films:ajouter_liste' 'film' film.pk %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-nav btn-or">+ Ajouter à ma liste</button>
+            </form>
+            {% else %}
+            <span class="btn-nav" style="border:1px solid #4caf50;color:#4caf50;">✓ Dans votre liste</span>
+            {% endif %}
+        {% endif %}
+
+        {% if film.url_lecture %}
+            <div class="bloc-saison">
+                <h3>Regarder le film</h3>
+                {% if film.lien_video %}
+                <iframe class="video-player" height="420" src="{{ film.url_lecture }}"
+                    title="{{ film.titre }}" frameborder="0" allowfullscreen></iframe>
+                {% else %}
+                <video class="video-player" height="420" controls src="{{ film.url_lecture }}"></video>
+                {% endif %}
+            </div>
+        {% elif film.bande_annonce_url %}
+            <div class="bloc-saison">
+                <h3>Bande-annonce</h3>
+                <iframe class="video-player" height="420" src="{{ film.bande_annonce_embed }}"
+                    title="Bande-annonce" frameborder="0" allowfullscreen></iframe>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

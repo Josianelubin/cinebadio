@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block titre %}Inscription — CinéBadio{% endblock %}
+{% block contenu %}
+<div class="page-form">
+    <div class="carte-form">
+        <h1>Créer un compte</h1>
+        <p class="sous-titre">Rejoignez CinéBadio gratuitement</p>
+        {% if form.errors %}
+            <div class="erreurs-form">
+                {% for field in form %}{% for error in field.errors %}<div>{{ error }}</div>{% endfor %}{% endfor %}
+                {% for error in form.non_field_errors %}<div>{{ error }}</div>{% endfor %}
+            </div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <label>Nom d'utilisateur</label>
+            {{ form.username }}
+            <label>Adresse email</label>
+            {{ form.email }}
+            <label>Mot de passe</label>
+            {{ form.password1 }}
+            <label>Confirmer le mot de passe</label>
+            {{ form.password2 }}
+            <button type="submit" class="btn-form">S'inscrire</button>
+        </form>
+        <span class="lien-secondaire">
+            Déjà inscrit ? <a href="{% url 'accounts:login' %}">Connectez-vous</a>
+        </span>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block titre %}Connexion — CinéBadio{% endblock %}
+{% block contenu %}
+<div class="page-form">
+    <div class="carte-form">
+        <h1>Connexion</h1>
+        <p class="sous-titre">Heureux de vous revoir sur CinéBadio</p>
+        {% if form.errors %}
+            <div class="erreurs-form">Identifiants incorrects. Réessayez.</div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <label for="id_username">Nom d'utilisateur</label>
+            {{ form.username }}
+            <label for="id_password">Mot de passe</label>
+            {{ form.password }}
+            <button type="submit" class="btn-form">Se connecter</button>
+        </form>
+        <span class="lien-secondaire">
+            Pas encore de compte ? <a href="{% url 'accounts:inscription' %}">Inscrivez-vous</a>
+        </span>
+    </div>
+</div>
+{% endblock %}

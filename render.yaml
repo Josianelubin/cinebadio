@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: cinebadio
+    runtime: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn cinebadio.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: "cinebadio.onrender.com"
+      - key: PYTHON_VERSION
+        value: "3.12.3"
+      - key: WEB_CONCURRENCY
+        value: "2"
+
+databases:
+  - name: cinebadio-db
+    plan: free

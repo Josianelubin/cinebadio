@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block titre %}Films — CinéBadio{% endblock %}
+{% block contenu %}
+<div class="section">
+    <h2>🎬 Tous les films</h2>
+    <div class="filtres-genre">
+        <a href="{% url 'films:liste_films' %}" class="{% if not genre_actif %}actif{% endif %}">Tous</a>
+        {% for genre in genres %}
+        <a href="?genre={{ genre.id }}" class="{% if genre_actif == genre.id|stringformat:'s' %}actif{% endif %}">{{ genre.nom }}</a>
+        {% endfor %}
+    </div>
+    <div class="grille-cartes">
+        {% for film in films %}
+        <a href="{% url 'films:detail_film' film.pk %}" class="carte-media">
+            <img src="{{ film.affiche.url }}" alt="{{ film.titre }}">
+            <div class="infos">
+                <h3>{{ film.titre }}</h3>
+                <span>{{ film.annee_sortie }} · {{ film.duree_minutes }} min</span>
+                <div class="badge-note">⭐ {{ film.note }}/10</div>
+            </div>
+        </a>
+        {% empty %}
+        <p style="color:var(--texte-attenue);">Aucun film trouvé.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

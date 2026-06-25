@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block titre %}Paramètres{% endblock %}
+{% block contenu %}
+<div class="page-form">
+    <div class="carte-form">
+        <h1>Paramètres</h1>
+        <form method="post">
+            {% csrf_token %}
+            <label style="display:flex;align-items:center;gap:10px;">
+                {{ form.notifications_email }} Recevoir les notifications par email
+            </label>
+            <button type="submit" class="btn-form" style="margin-top:16px;">Enregistrer</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

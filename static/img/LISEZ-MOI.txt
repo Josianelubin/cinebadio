@@ -1,0 +1,4 @@
+Placez ici votre logo : badio.png
+(utilisé pour : l'icône du site, le logo Jazzmin, et le logo de connexion admin)
+
+Placez aussi un avatar par défaut : avatar_defaut.png

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block titre %}Mon profil — CinéBadio{% endblock %}
+{% block contenu %}
+<div class="profil-entete">
+    <img src="{{ profil.avatar_url }}" alt="avatar">
+    <div>
+        <h1 style="color:var(--or);margin:0 0 6px;">{{ profil.username }}</h1>
+        <p style="color:var(--texte-attenue);margin:0;">{{ profil.email }}</p>
+        {% if profil.bio %}<p style="margin-top:10px;">{{ profil.bio }}</p>{% endif %}
+        <p style="font-size:13px;color:var(--texte-attenue);">Membre depuis le {{ profil.cree_le|date:"d/m/Y" }}</p>
+    </div>
+</div>
+<div class="liens-profil">
+    <a href="{% url 'accounts:modifier_profil' %}">✏️ Modifier mon profil</a>
+    <a href="{% url 'accounts:parametres' %}">⚙️ Paramètres</a>
+    <a href="{% url 'accounts:changer_mot_de_passe' %}">🔒 Changer le mot de passe</a>
+    <a href="{% url 'films:ma_liste' %}">🎬 Ma liste à voir</a>
+</div>
+{% endblock %}

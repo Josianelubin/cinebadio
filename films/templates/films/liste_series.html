@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block titre %}Séries — CinéBadio{% endblock %}
+{% block contenu %}
+<div class="section">
+    <h2>📺 Toutes les séries</h2>
+    <div class="filtres-genre">
+        <a href="{% url 'films:liste_series' %}" class="{% if not genre_actif %}actif{% endif %}">Toutes</a>
+        {% for genre in genres %}
+        <a href="?genre={{ genre.id }}" class="{% if genre_actif == genre.id|stringformat:'s' %}actif{% endif %}">{{ genre.nom }}</a>
+        {% endfor %}
+    </div>
+    <div class="grille-cartes">
+        {% for serie in series %}
+        <a href="{% url 'films:detail_serie' serie.pk %}" class="carte-media">
+            <img src="{{ serie.affiche.url }}" alt="{{ serie.titre }}">
+            <div class="infos">
+                <h3>{{ serie.titre }}</h3>
+                <span>{{ serie.annee_debut }} · {{ serie.nombre_saisons }} saison(s)</span>
+                <div class="badge-note">⭐ {{ serie.note }}/10</div>
+            </div>
+        </a>
+        {% empty %}
+        <p style="color:var(--texte-attenue);">Aucune série trouvée.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
