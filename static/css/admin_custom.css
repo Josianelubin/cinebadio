@@ -1,21 +1,31 @@
-/* CinéBadio — Admin Jazzmin : thème sombre + or */
+/* ──────────────────────────────────────────────────────────
+   CinéBadio — Admin Jazzmin : thème sombre + or
+   À placer dans : static/css/admin_custom.css
+   ────────────────────────────────────────────────────────── */
 
 :root {
     --badio-or: #d4af37;
     --badio-noir: #0d0d0d;
 }
 
+/* ── Fond de la page de connexion admin ──────────────────── */
 body.login {
-    background: radial-gradient(circle at top, #1a1a1a, #000) !important;
+    background: radial-gradient(circle at top, #1a1a1a 0%, #000 100%) !important;
 }
 
-.login-box, .register-box {
+.login-box,
+.register-box {
     margin-top: 6%;
 }
 
-.login-logo img, .brand-image {
-    border-radius: 50%;
-    box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+.login-card-body,
+.register-card-body,
+.card-body {
+    background: #161616 !important;
+    border-radius: 16px !important;
+    border: 1px solid #2a2a2a !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    padding: 30px !important;
 }
 
 .card {
@@ -23,22 +33,32 @@ body.login {
     border: 1px solid #2a2a2a !important;
 }
 
-.login-card-body, .card-body {
-    background: #161616 !important;
-    border-radius: 14px;
+/* ── Logo (badio.png) sur la page de connexion ───────────── */
+.login-logo,
+.login-logo a {
+    text-align: center;
 }
 
-.btn-warning, .btn-primary {
-    background-color: var(--badio-or) !important;
-    border-color: var(--badio-or) !important;
-    color: #111 !important;
-    font-weight: 700 !important;
+.login-logo img,
+.brand-image,
+.brand-image-xl {
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border: 3px solid var(--badio-or);
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.65);
+    margin-bottom: 10px;
 }
 
-.btn-warning:hover, .btn-primary:hover {
-    opacity: 0.85;
+.login-logo {
+    font-size: 26px;
+    color: var(--badio-or) !important;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 
+/* ── Logo + en-tête dans la barre latérale de l'admin ────── */
 .main-header.navbar {
     border-bottom: 2px solid var(--badio-or) !important;
 }
@@ -47,10 +67,74 @@ body.login {
     border-bottom: 2px solid var(--badio-or) !important;
 }
 
-a, .nav-link.active {
+.brand-image {
+    margin-right: 8px;
+}
+
+.brand-text {
+    color: var(--badio-or) !important;
+    font-weight: 700;
+}
+
+/* ── Champs du formulaire de connexion ───────────────────── */
+.login-card-body .form-control,
+.register-card-body .form-control {
+    background-color: #111 !important;
+    border: 1px solid #333 !important;
+    color: #f1f1f1 !important;
+    border-radius: 8px !important;
+}
+
+.login-card-body .form-control:focus,
+.register-card-body .form-control:focus {
+    border-color: var(--badio-or) !important;
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25) !important;
+}
+
+.login-card-body .input-group-text,
+.register-card-body .input-group-text {
+    background-color: #1c1c1c !important;
+    border: 1px solid #333 !important;
+    color: var(--badio-or) !important;
+}
+
+/* ── Boutons (connexion + admin en général) ──────────────── */
+.btn-warning,
+.btn-primary {
+    background-color: var(--badio-or) !important;
+    border-color: var(--badio-or) !important;
+    color: #111 !important;
+    font-weight: 700 !important;
+    border-radius: 8px !important;
+    transition: transform 0.15s, opacity 0.15s;
+}
+
+.btn-warning:hover,
+.btn-primary:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+}
+
+/* ── Texte et liens ───────────────────────────────────────── */
+.login-card-body p,
+.login-card-body label,
+.register-card-body p,
+.register-card-body label {
+    color: #b3b3b3 !important;
+}
+
+.login-card-body a,
+.register-card-body a {
+    color: var(--badio-or) !important;
+}
+
+a,
+.nav-link.active {
     color: var(--badio-or);
 }
 
-.small-box, .info-box {
+/* ── Petites cartes / widgets du tableau de bord admin ───── */
+.small-box,
+.info-box {
     border-radius: 12px !important;
 }

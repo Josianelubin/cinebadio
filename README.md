@@ -22,6 +22,14 @@ python manage.py runserver
 
 Le site est sur **http://127.0.0.1:8000/** et l'admin sur **http://127.0.0.1:8000/admin/**.
 
+⚠️ **Important** : tapez bien `http://` (pas `https://`) dans votre navigateur. Le
+serveur de développement Django ne supporte PAS le HTTPS. Si votre navigateur
+affiche une erreur `ERR_SSL_PROTOCOL_ERROR` ou redirige automatiquement vers
+`https://127.0.0.1:8000`, désactivez l'option "Toujours utiliser des connexions
+sécurisées" dans Chrome (Paramètres → Confidentialité et sécurité → Sécurité),
+ou utilisez `http://localhost:8000` à la place. Ceci est un comportement du
+navigateur, pas une erreur du projet.
+
 ## 2. Mettre votre logo
 
 Déposez votre fichier **`badio.png`** dans `static/img/badio.png`.

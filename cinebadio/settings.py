@@ -9,9 +9,11 @@ from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 
-load_dotenv()
-
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Chargement explicite du .env à la racine du projet (fiable peu importe
+# le dossier depuis lequel la commande est lancée).
+load_dotenv(BASE_DIR / ".env")
 
 # ──────────────────────────────────────────────────────────────
 # SÉCURITÉ DE BASE
@@ -25,17 +27,19 @@ SECRET_KEY = os.environ.get(
 # DEBUG = False en production. Mettre DJANGO_DEBUG=True uniquement en local.
 DEBUG = os.environ.get("DJANGO_DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = os.environ.get(
-    "DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1"
-).split(",")
 
-RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+# ── Debug / Hosts ─────────────────────────────────────────────────────────────
+# En local : variable DEBUG absente => True
+# Sur Render : mettre DEBUG=False dans les variables d'environnement
+DEBUG = os.environ.get('DEBUG', 'True').strip().lower() in ('true', '1', 'yes')
 
-CSRF_TRUSTED_ORIGINS = [
-    f"https://{h}" for h in ALLOWED_HOSTS if h not in ("localhost", "127.0.0.1")
-]
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
+    ALLOWED_HOSTS = os.environ.get(
+        'ALLOWED_HOSTS',
+        '.onrender.com,localhost,127.0.0.1'
+    ).split(',')
 
 # ──────────────────────────────────────────────────────────────
 # APPLICATIONS
@@ -98,6 +102,15 @@ DATABASES = {
     )
 }
 
+# Si la variable DATABASE_URL existe mais est vide (ex: ligne "DATABASE_URL="
+# laissée dans le .env), dj_database_url.config() retourne un dict vide.
+# On retombe alors explicitement sur SQLite pour éviter une erreur "ENGINE".
+if not DATABASES["default"]:
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+
 # ──────────────────────────────────────────────────────────────
 # AUTHENTIFICATION
 # ──────────────────────────────────────────────────────────────
@@ -140,7 +153,14 @@ CSRF_COOKIE_SAMESITE = "Lax"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 7 jours
 
-if not DEBUG:
+import sys
+
+# Détecte si on utilise le serveur de développement (manage.py runserver).
+# Dans ce cas, on ne force JAMAIS la redirection HTTPS, même si DEBUG=False
+# par erreur, car runserver ne sait pas du tout gérer le HTTPS.
+LANCE_AVEC_RUNSERVER = "runserver" in sys.argv
+
+if not DEBUG and not LANCE_AVEC_RUNSERVER:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
